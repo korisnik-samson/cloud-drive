@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="42f49a58-64d2-4f79-9523-7d4829ab5dc2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/apple-icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/icon-dark-32x32.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/icon-light-32x32.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/icon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/placeholder-logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/placeholder-logo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/placeholder-user.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/placeholder.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/placeholder.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/cloud-drive.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/drive/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/login/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/share/[token]/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/drive/Breadcrumbs.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/drive/CreateFolderDialog.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/drive/NodeTable.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/drive/ShareDialog.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/drive/UploadButton.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/api/authApi.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/api/driveApi.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/api/http.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/auth/tokenStorage.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/stores/authStore.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/types.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/file.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/globe.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/next.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/vercel.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/window.svg" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/sammi/Desktop/projects/cloud-drive" value="3A5fQTMICEgq6lDa61XmjULHjMB" />
+    </persistenceIdMap>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="22" />
+    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;korisnik-samson&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/korisnik-samson/cloud-drive.git&quot;,
+    &quot;accountId&quot;: &quot;80ed2e29-dd23-4c01-b9f8-82c82863b691&quot;
+  }
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="3A5fQTMICEgq6lDa61XmjULHjMB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="sortByType" value="true" />
+    <option name="sortKey" value="BY_TYPE" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "C:/Users/sammi/Desktop/projects/cloud-drive/public",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.build.executor": "Run",
+    "npm.dev.executor": "Run",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "show.migrate.to.gradle.popup": "false",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "C:\\Users\\sammi\\Desktop\\projects\\cloud-drive\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecapSpentCounter">
+    <option name="endsOfQuotaMs" value="1773266417641" />
+    <option name="spentUsd" value="0.06514125" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\sammi\Desktop\projects\cloud-drive\public" />
+      <recent name="C:\Users\sammi\Desktop\projects\cloud-drive" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.dev">
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="npm.dev" />
+      <item itemvalue="npm.build" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.build" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-WS-253.31033.133" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="42f49a58-64d2-4f79-9523-7d4829ab5dc2" name="Changes" comment="" />
+      <created>1771887336132</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1771887336132</updated>
+      <workItem from="1771887337231" duration="174000" />
+      <workItem from="1771887547820" duration="55000" />
+      <workItem from="1771887609874" duration="1588000" />
+      <workItem from="1771922497916" duration="318000" />
+      <workItem from="1771922859681" duration="804000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="components.json" />
+    <option featureType="com.intellij.fileTypeFactory" implementationName="package.json" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>
