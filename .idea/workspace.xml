@@ -5,47 +5,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42f49a58-64d2-4f79-9523-7d4829ab5dc2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/apple-icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icon-dark-32x32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icon-light-32x32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icon.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/placeholder-logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/placeholder-logo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/placeholder-user.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/placeholder.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/placeholder.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/cloud-drive.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/drive/page.tsx" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/providers.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/share/[token]/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/login-panel.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/modals/create-folder-modal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/modals/move-modal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/modals/rename-modal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/modals/share-modal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/modals/versions-modal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/views/recent-activity.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/views/shares-view.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hooks/use-auth.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hooks/use-debounce.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/api.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/auth.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/globals.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/login/page.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/share/[token]/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/drive/Breadcrumbs.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/drive/CreateFolderDialog.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/drive/NodeTable.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/drive/ShareDialog.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/drive/UploadButton.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/api/authApi.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/api/driveApi.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/api/http.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/auth/tokenStorage.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/stores/authStore.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/types.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/file.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/globe.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/next.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/vercel.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/window.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components.json" beforeDir="false" afterPath="$PROJECT_DIR$/components.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/app-sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/app-sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/breadcrumb-nav.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/breadcrumb-nav.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/file-browser.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/file-browser.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/quick-actions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/quick-actions.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/search-header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/search-header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/upload-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/upload-modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/next.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +46,7 @@
     </persistenceIdMap>
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="22" />
+    <option name="cachedIndexableFilesCount" value="97" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
@@ -105,7 +93,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/sammi/Desktop/projects/cloud-drive/public",
+    "last_opened_file_path": "C:/Users/sammi/Desktop/projects/cloud-drive/app",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -121,13 +109,19 @@
   }
 }]]></component>
   <component name="RecapSpentCounter">
-    <option name="endsOfQuotaMs" value="1773266417641" />
-    <option name="spentUsd" value="0.06514125" />
+    <option name="endsOfQuotaMs" value="1775858411862" />
+    <option name="spentUsd" value="0.10063985" />
+  </component>
+  <component name="RecapUselessUpdatesCounter">
+    <option name="suspendCountdown" value="7" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\sammi\Desktop\projects\cloud-drive\app" />
+      <recent name="C:\Users\sammi\Desktop\projects\cloud-drive\lib" />
+      <recent name="C:\Users\sammi\Desktop\projects\cloud-drive\hooks" />
+      <recent name="C:\Users\sammi\Desktop\projects\cloud-drive\components" />
       <recent name="C:\Users\sammi\Desktop\projects\cloud-drive\public" />
-      <recent name="C:\Users\sammi\Desktop\projects\cloud-drive" />
     </key>
   </component>
   <component name="RunManager" selected="npm.dev">
@@ -179,7 +173,9 @@
       <workItem from="1771887547820" duration="55000" />
       <workItem from="1771887609874" duration="1588000" />
       <workItem from="1771922497916" duration="318000" />
-      <workItem from="1771922859681" duration="804000" />
+      <workItem from="1771922859681" duration="8014000" />
+      <workItem from="1773393963827" duration="87000" />
+      <workItem from="1773685752403" duration="12805000" />
     </task>
     <servers />
   </component>
@@ -189,6 +185,7 @@
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="components.json" />
     <option featureType="com.intellij.fileTypeFactory" implementationName="package.json" />
+    <option featureType="com.intellij.fileTypeFactory" implementationName="next.config.ts" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

@@ -1,143 +1,188 @@
 "use client"
 
-import React, { useCallback, useState } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, } from "@/components/ui/dialog"
+import { useMemo, useState } from "react"
+import { Upload, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Progress } from "@/components/ui/progress"
-import { AlertCircle, CheckCircle2, FileText, Upload, X } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { initiateUpload, completeUpload } from "@/lib/api"
+import { toast } from "sonner"
 
-interface UploadFile {
-    id: string
-    name: string
-    size: string
-    progress: number
-    status: "uploading" | "complete" | "error"
-}
+function putWithProgress(url: string, file: File, onProgress: (pct: number) => void) {
+  return new Promise<void>((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.open("PUT", url)
 
-interface UploadModalProps {
-    open: boolean
-    onOpenChange: (open: boolean) => void
-}
+    // If your presigned URL was generated without signing Content-Type, this header is still usually OK.
+    // If you ever get SignatureDoesNotMatch, remove this setRequestHeader.
+    if (file.type) xhr.setRequestHeader("Content-Type", file.type)
 
-export function UploadModal({ open, onOpenChange }: UploadModalProps) {
-    const [isDragging, setIsDragging] = useState(false)
-    const [files, setFiles] = useState<UploadFile[]>([
-        { id: "1", name: "presentation.pptx", size: "4.2 MB", progress: 100, status: "complete" },
-        { id: "2", name: "budget-2026.xlsx", size: "1.8 MB", progress: 67, status: "uploading" },
-        { id: "3", name: "meeting-notes.pdf", size: "256 KB", progress: 0, status: "error" },
-    ])
-
-    const handleDragOver = useCallback((e: React.DragEvent) => {
-        e.preventDefault()
-        setIsDragging(true)
-    }, [])
-
-    const handleDragLeave = useCallback((e: React.DragEvent) => {
-        e.preventDefault()
-        setIsDragging(false)
-    }, [])
-
-    const handleDrop = useCallback((e: React.DragEvent) => {
-        e.preventDefault()
-        setIsDragging(false)
-        // Handle file drop
-    }, [])
-
-    const removeFile = (fileId: string) => {
-        setFiles((prev) => prev.filter((f) => f.id !== fileId))
+    xhr.upload.onprogress = (evt) => {
+      if (evt.lengthComputable) {
+        onProgress(Math.round((evt.loaded / evt.total) * 100))
+      }
     }
 
-    return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-lg">
-                <DialogHeader>
-                    <DialogTitle>Upload Files</DialogTitle>
-                </DialogHeader>
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) resolve()
+      else reject(new Error(xhr.responseText || `Upload failed (${xhr.status})`))
+    }
 
-                <div className="space-y-4">
-                    {/* Drop Zone */}
-                    <div
-                        onDragOver={handleDragOver}
-                        onDragLeave={handleDragLeave}
-                        onDrop={handleDrop}
-                        className={cn(
-                            "relative flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-8 transition-colors",
-                            isDragging
-                                ? "border-primary bg-primary/5"
-                                : "border-border hover:border-primary/50"
-                        )}
-                    >
-                        <div className="rounded-full bg-primary/10 p-4 mb-4">
-                            <Upload className="h-8 w-8 text-primary"/>
-                        </div>
-                        <p className="text-sm font-medium text-foreground mb-1">
-                            Drag and drop files here
-                        </p>
-                        <p className="text-sm text-muted-foreground mb-4">
-                            or click to browse from your computer
-                        </p>
-                        <Button variant="outline" size="sm">
-                            Browse Files
-                        </Button>
-                        <input
-                            type="file"
-                            multiple
-                            className="absolute inset-0 cursor-pointer opacity-0"
-                        />
+    xhr.onerror = () => reject(new Error("Network error during upload"))
+    xhr.send(file)
+  })
+}
+
+export function UploadModal({
+  open,
+  onOpenChange,
+  parentId,
+  onUploaded,
+}: {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  parentId: string | null
+  onUploaded?: () => void
+}) {
+  const [files, setFiles] = useState<File[]>([])
+  const [isUploading, setIsUploading] = useState(false)
+  const [progress, setProgress] = useState(0)
+
+  const totalSize = useMemo(() => files.reduce((s, f) => s + (f.size || 0), 0), [files])
+
+  async function uploadAll() {
+    if (files.length === 0) {
+      toast.error("Choose a file first")
+      return
+    }
+
+    setIsUploading(true)
+    setProgress(0)
+
+    try {
+      // Upload sequentially for simplicity (and clearer progress)
+      let uploadedBytes = 0
+
+      for (const file of files) {
+        const init = await initiateUpload({
+          parentId,
+          fileName: file.name,
+          mimeType: file.type || "application/octet-stream",
+          sizeBytes: file.size,
+        })
+
+        let lastPct = 0
+        await putWithProgress(init.uploadUrl, file, (pct) => {
+          // translate per-file progress into total progress
+          const fileBytes = (pct / 100) * file.size
+          const totalPct = Math.round(((uploadedBytes + fileBytes) / Math.max(totalSize, 1)) * 100)
+          if (totalPct !== lastPct) {
+            lastPct = totalPct
+            setProgress(totalPct)
+          }
+        })
+
+        uploadedBytes += file.size
+
+        await completeUpload({
+          parentId,
+          objectKey: init.objectKey,
+          fileName: file.name,
+          mimeType: file.type || "application/octet-stream",
+          sizeBytes: file.size,
+          checksumSha256: null,
+        })
+      }
+
+      toast.success("Upload complete")
+      setFiles([])
+      onOpenChange(false)
+      onUploaded?.()
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Upload failed")
+    } finally {
+      setIsUploading(false)
+      setProgress(0)
+    }
+  }
+
+  function handleFilesSelected(fileList: FileList | null) {
+    if (!fileList) return
+    setFiles(Array.from(fileList))
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>Upload files</DialogTitle>
+        </DialogHeader>
+
+        <div className="space-y-4">
+          <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
+            <Upload className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+            <p className="text-sm text-muted-foreground mb-2">Drag and drop files here, or click to browse</p>
+            <input
+              type="file"
+              multiple
+              className="hidden"
+              id="file-upload"
+              onChange={(e) => handleFilesSelected(e.target.files)}
+            />
+            <label htmlFor="file-upload">
+              <Button variant="outline" className="cursor-pointer" asChild>
+                <span>Choose Files</span>
+              </Button>
+            </label>
+          </div>
+
+          {files.length > 0 && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium">Selected ({files.length})</p>
+                <Button variant="ghost" size="sm" onClick={() => setFiles([])}>
+                  Clear
+                </Button>
+              </div>
+
+              <div className="space-y-2 max-h-40 overflow-y-auto">
+                {files.map((file, index) => (
+                  <div key={index} className="flex items-center justify-between p-2 bg-muted/50 rounded">
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium truncate">{file.name}</p>
+                      <p className="text-xs text-muted-foreground">{Math.round(file.size / 1024)} KB</p>
                     </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setFiles((prev) => prev.filter((_, i) => i !== index))}
+                      disabled={isUploading}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
 
-                    {/* File List */}
-                    {files.length > 0 && (
-                        <div className="space-y-3">
-                            <h4 className="text-sm font-medium text-foreground">Uploading {files.length} files</h4>
-                            {files.map((file) => (
-                                <div
-                                    key={file.id}
-                                    className="flex items-center gap-3 rounded-lg border border-border/50 p-3"
-                                >
-                                    <div className="rounded-lg bg-muted p-2">
-                                        <FileText className="h-5 w-5 text-muted-foreground"/>
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm font-medium text-foreground truncate">
-                        {file.name}
-                      </span>
-                                            <div className="flex items-center gap-2">
-                                                {file.status === "complete" && (
-                                                    <CheckCircle2 className="h-4 w-4 text-emerald-500"/>
-                                                )}
-                                                {file.status === "error" && (
-                                                    <AlertCircle className="h-4 w-4 text-destructive"/>
-                                                )}
-                                                <button
-                                                    onClick={() => removeFile(file.id)}
-                                                    className="text-muted-foreground hover:text-foreground"
-                                                >
-                                                    <X className="h-4 w-4"/>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <Progress
-                                                value={file.progress}
-                                                className={cn(
-                                                    "h-1 flex-1",
-                                                    file.status === "error" && "[&>div]:bg-destructive"
-                                                )}
-                                            />
-                                            <span className="text-xs text-muted-foreground w-12 text-right">
-                        {file.status === "error" ? "Failed" : `${file.progress}%`}
-                      </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+              {isUploading && (
+                <div className="space-y-2">
+                  <Progress value={progress} />
+                  <p className="text-xs text-muted-foreground">Uploading… {progress}%</p>
                 </div>
-            </DialogContent>
-        </Dialog>
-    )
+              )}
+
+              <div className="flex justify-end gap-2">
+                <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isUploading}>
+                  Cancel
+                </Button>
+                <Button onClick={uploadAll} disabled={isUploading}>
+                  {isUploading ? "Uploading…" : "Upload"}
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
 }

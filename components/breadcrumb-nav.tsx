@@ -1,36 +1,27 @@
-"use client"
+"use client";
 
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from "@/components/ui/breadcrumb"
-import { Home } from "lucide-react"
-import { Fragment } from "react"
+import { ChevronRight, Home } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-interface BreadcrumbNavProps {
-    path: string[]
-}
+export type BreadcrumbItem = {
+    id: string | null;
+    label: string;
+};
 
-export function BreadcrumbNav({ path }: BreadcrumbNavProps) {
+export function BreadcrumbNav({ items, onNavigate }: { items: BreadcrumbItem[]; onNavigate?: (id: string | null, index: number) => void; }) {
     return (
-        <Breadcrumb>
-            <BreadcrumbList>
-                <BreadcrumbItem>
-                    <BreadcrumbLink href="/" className="flex items-center gap-1.5">
-                        <Home className="h-4 w-4"/>
-                        <span className="sr-only">Home</span>
-                    </BreadcrumbLink>
-                </BreadcrumbItem>
-                {path.map((item, index) => (
-                    <Fragment key={item}>
-                        <BreadcrumbSeparator/>
-                        <BreadcrumbItem>
-                            {index === path.length - 1 ? (
-                                <BreadcrumbPage>{item}</BreadcrumbPage>
-                            ) : (
-                                <BreadcrumbLink href="#">{item}</BreadcrumbLink>
-                            )}
-                        </BreadcrumbItem>
-                    </Fragment>
-                ))}
-            </BreadcrumbList>
-        </Breadcrumb>
-    )
+        <nav className="flex items-center gap-1 text-sm text-muted-foreground">
+            {items.map((item, index) => (
+                <div key={`${item.label}-${index}`} className="flex items-center gap-1">
+                    {index === 0 ? <Home className="h-4 w-4"/> : <ChevronRight className="h-4 w-4"/>}
+
+                    <button className={cn("hover:text-foreground transition-colors", index === items.length - 1 && "text-foreground font-medium")}
+                        onClick={() => onNavigate?.(item.id, index)}
+                        type="button">
+                        {item.label}
+                    </button>
+                </div>
+            ))}
+        </nav>
+    );
 }
