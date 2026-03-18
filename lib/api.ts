@@ -116,9 +116,7 @@ export async function refresh(refreshToken: string): Promise<boolean> {
         const nextAccessToken = res.accessToken ?? res.access_token ?? null;
         const nextRefreshToken = res.refreshToken ?? res.refresh_token ?? refreshToken;
 
-        if (!nextAccessToken) {
-            throw new Error("Refresh response did not contain a valid access token.");
-        }
+        if (!nextAccessToken) throw new Error("Refresh response did not contain a valid access token.");
 
         setTokens(nextAccessToken, nextRefreshToken);
 
