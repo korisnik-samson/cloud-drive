@@ -15,7 +15,7 @@ type LoginResponseDto = {
     token_type?: string;
 };
 
-async function request<T>(path: string, init: RequestInit & { auth?: boolean } = { auth: true }): Promise<T> {
+export async function request<T>(path: string, init: RequestInit & { auth?: boolean } = { auth: true }): Promise<T> {
     const auth = init.auth !== false;
     const headers = new Headers(init.headers ?? {});
 
