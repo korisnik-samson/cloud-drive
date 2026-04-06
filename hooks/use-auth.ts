@@ -22,11 +22,22 @@ export function useAuth() {
             const { accessToken, refreshToken } = getTokens();
 
             if (!accessToken) {
-                setUser(null);
-                return;
+                // NEW: try silent refresh if refreshToken exists
+                if (refreshToken) {
+                    const refreshed = await apiRefresh(refreshToken);
+
+                    if (!refreshed) {
+                        setUser(null);
+                        return;
+                    }
+
+                } else {
+                    setUser(null);
+                    return;
+                }
             }
 
-            if (isTokenExpired(accessToken) && refreshToken) {
+            if (isTokenExpired(accessToken!) && refreshToken) {
                 const refreshed = await apiRefresh(refreshToken);
 
                 if (!refreshed) {
@@ -42,11 +53,9 @@ export function useAuth() {
             const { accessToken } = getTokens();
             const payload = accessToken ? decodeJwtPayload(accessToken) : null;
 
-            if (payload?.sub && payload.username) {
+            if (payload?.sub && payload.username)
                 setUser({ id: payload.sub, username: payload.username, role: payload.role });
-            } else {
-                setUser(null);
-            }
+            else setUser(null);
 
         } finally {
             setLoading(false);

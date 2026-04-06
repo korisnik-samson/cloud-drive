@@ -15,6 +15,20 @@ type LoginResponseDto = {
     token_type?: string;
 };
 
+let refreshInFlight: Promise<boolean> | null = null;
+
+async function refreshOnce(): Promise<boolean> {
+    const { refreshToken } = getTokens();
+    if (!refreshToken) return false;
+
+    if (!refreshInFlight) {
+        refreshInFlight = refresh(refreshToken).finally(() => {
+            refreshInFlight = null;
+        });
+    }
+    return refreshInFlight;
+}
+
 async function request<T>(path: string, init: RequestInit & { auth?: boolean } = { auth: true }): Promise<T> {
     const auth = init.auth !== false;
     const headers = new Headers(init.headers ?? {});
@@ -34,7 +48,7 @@ async function request<T>(path: string, init: RequestInit & { auth?: boolean } =
 
     // Auto-refresh once on 401
     if (auth && res.status === 401 && tokens.refreshToken && path !== "/auth/refresh") {
-        const refreshed = await refresh(tokens.refreshToken);
+        const refreshed = await refreshOnce();
 
         if (refreshed) {
             const tokens2 = getTokens();
@@ -122,8 +136,8 @@ export async function refresh(refreshToken: string): Promise<boolean> {
 
         return true;
 
-    } catch {
-        clearTokens();
+    } catch (exception){
+        // clearTokens();
         return false;
     }
 }
@@ -273,4 +287,12 @@ export async function resolveShare(token: string, password?: string | null): Pro
         headers: { "Content-Type": "application/json" },
         body,
     });
+}
+
+export async function getUsage() {
+    return request<{
+        usedBytes: number;
+        quotaBytes: number;
+        byCategoryBytes: Record<string, number>;
+    }>("/api/v1/usage", { method: "GET" });
 }

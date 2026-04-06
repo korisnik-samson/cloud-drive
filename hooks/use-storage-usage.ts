@@ -1,6 +1,7 @@
 "use client"
 
 import useSWR from "swr"
+import { getUsage } from "@/lib/api";
 
 type Usage = {
     usedBytes: number
@@ -15,8 +16,8 @@ const fetcher = (url: string) =>
     })
 
 export function useStorageUsage() {
-    return useSWR<Usage>("/api/v1/usage", fetcher, {
-        refreshInterval: 30_000, // refresh every 30s
+    return useSWR("usage", getUsage, {
+        refreshInterval: 30_000,
         revalidateOnFocus: true,
-    })
+    });
 }

@@ -11,7 +11,7 @@ export type BreadcrumbItem = {
 export function BreadcrumbNav({ items, onNavigate }: { items: BreadcrumbItem[]; onNavigate?: (id: string | null, index: number) => void; }) {
     return (
         <nav className="flex items-center gap-1 text-sm text-muted-foreground">
-            {items.map((item, index) => (
+            {items?.map((item, index) => (
                 <div key={`${item.label}-${index}`} className="flex items-center gap-1">
                     {index === 0 ? <Home className="h-4 w-4"/> : <ChevronRight className="h-4 w-4"/>}
 

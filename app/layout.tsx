@@ -6,6 +6,7 @@ import './globals.css'
 import { Providers } from "./providers"
 
 import { Source_Serif_4, Geist as V0_Font_Geist, Geist_Mono as V0_Font_Geist_Mono, Source_Serif_4 as V0_Font_Source_Serif_4 } from 'next/font/google'
+import { ThemeProvider } from "@/components/theme-provider";
 
 // Initialize fonts
 const _geist = V0_Font_Geist({ subsets: ['latin'], weight: ["100","200","300","400","500","600","700","800","900"] })
@@ -38,11 +39,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <html lang="en">
-            <body className={`${_geistMono.className} font-sans antialiased bg-background text-foreground`}>
-                {children}
-                <Providers />
-                <Analytics />
+        <html lang="en" suppressHydrationWarning={true}>
+            <body className={`${_geistMono.className} font-sans antialiased text-foreground bg-background`}>
+                <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+                    <Providers />
+                    <Analytics />
+                    {children}
+                </ThemeProvider>
             </body>
         </html>
     )

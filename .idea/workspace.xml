@@ -5,17 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42f49a58-64d2-4f79-9523-7d4829ab5dc2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/hooks/use-storage-usage.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/modals/file-preview-modal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/modals/upload-modal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hooks/use-nodes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hooks/use-shares.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hooks/use-uploads.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/auth-token.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/login-panel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/login-panel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/search-header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/search-header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/storage-stats.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/storage-stats.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/providers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/providers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/breadcrumb-nav.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/breadcrumb-nav.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/file-browser.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/file-browser.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/theme-provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/theme-provider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/upload-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/upload-modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/views/shares-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/views/shares-view.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hooks/use-auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/use-auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hooks/use-storage-usage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/use-storage-usage.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/types.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,13 +37,14 @@
     </persistenceIdMap>
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="97" />
+    <option name="cachedIndexableFilesCount" value="120" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -67,36 +77,37 @@
     <option name="sortByType" value="true" />
     <option name="sortKey" value="BY_TYPE" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/sammi/Desktop/projects/cloud-drive/app",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.build.executor": "Run",
-    "npm.dev.executor": "Run",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "show.migrate.to.gradle.popup": "false",
-    "to.speed.mode.migration.done": "true",
-    "ts.external.directory.path": "C:\\Users\\sammi\\Desktop\\projects\\cloud-drive\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/sammi/Desktop/projects/cloud-drive/components/modals&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.build.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\sammi\\Desktop\\projects\\cloud-drive\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecapSpentCounter">
     <option name="endsOfQuotaMs" value="1775858411862" />
     <option name="spentUsd" value="0.1252249" />
@@ -106,11 +117,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\sammi\Desktop\projects\cloud-drive\components\modals" />
       <recent name="C:\Users\sammi\Desktop\projects\cloud-drive\app" />
       <recent name="C:\Users\sammi\Desktop\projects\cloud-drive\lib" />
       <recent name="C:\Users\sammi\Desktop\projects\cloud-drive\hooks" />
       <recent name="C:\Users\sammi\Desktop\projects\cloud-drive\components" />
-      <recent name="C:\Users\sammi\Desktop\projects\cloud-drive\public" />
     </key>
   </component>
   <component name="RunManager" selected="npm.dev">
@@ -147,7 +158,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-WS-253.31033.133" />
+        <option value="bundled-js-predefined-d6986cc7102b-3bd3a6803838-JavaScript-WS-261.22158.274" />
       </set>
     </attachedChunks>
   </component>
@@ -165,6 +176,12 @@
       <workItem from="1771922859681" duration="8014000" />
       <workItem from="1773393963827" duration="87000" />
       <workItem from="1773685752403" duration="20719000" />
+      <workItem from="1773997885304" duration="84000" />
+      <workItem from="1773998006058" duration="8675000" />
+      <workItem from="1774522879636" duration="112000" />
+      <workItem from="1774523086589" duration="19000" />
+      <workItem from="1774523526984" duration="540000" />
+      <workItem from="1775462972029" duration="2911000" />
     </task>
     <servers />
   </component>

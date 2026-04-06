@@ -3,5 +3,5 @@
 import { Toaster } from "sonner";
 
 export function Providers() {
-  return <Toaster richColors />;
+    return <Toaster richColors />;
 }

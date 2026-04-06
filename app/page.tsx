@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react"
 import { AppSidebar } from "@/components/app-sidebar"
 import { SearchHeader } from "@/components/search-header"
-import { type BreadcrumbItem, BreadcrumbNav } from "@/components/breadcrumb-nav"
+import { BreadcrumbNav } from "@/components/breadcrumb-nav"
 import { QuickActions } from "@/components/quick-actions"
 import { FileBrowser } from "@/components/file-browser"
 import { UploadModal } from "@/components/upload-modal"
@@ -12,6 +12,7 @@ import { RenameModal } from "@/components/modals/rename-modal"
 import { MoveModal } from "@/components/modals/move-modal"
 import { ShareModal } from "@/components/modals/share-modal"
 import { VersionsModal } from "@/components/modals/versions-modal"
+import { FilePreviewModal } from "@/components/modals/file-preview-modal"
 import { RecentActivityView } from "@/components/views/recent-activity"
 import { SharesView } from "@/components/views/shares-view"
 import { LoginPanel } from "@/components/login-panel"
@@ -21,36 +22,35 @@ import { Button } from "@/components/ui/button"
 import { Menu } from "lucide-react"
 
 import type { StorageNodeDto } from "@/lib/types"
-import { createFolder, getDownloadUrl, listNodes, listTrash, moveNode, purgeNode, renameNode, restoreNode, searchNodes, trashNode, } from "@/lib/api"
-import { toast } from "sonner"
 import { useAuth } from "@/hooks/use-auth"
-import { useDebounce } from "@/hooks/use-debounce"
+
+// ✅ NEW HOOKS
+import { useNodes } from "@/hooks/use-nodes"
+import { useUploads } from "@/hooks/use-uploads"
+import { useShares } from "@/hooks/use-shares"
 
 export default function CloudStoragePage() {
     const auth = useAuth()
+
+    // UI nav state
     const [activeNav, setActiveNav] = useState<string>("My Files")
     const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false)
 
-    // Drive state
-    const [currentFolderId, setCurrentFolderId] = useState<string | null>(null)
-    const [crumbs, setCrumbs] = useState<BreadcrumbItem[]>([{ id: null, label: "My Files" }])
-
-    const [items, setItems] = useState<StorageNodeDto[]>([])
-    const [trashItems, setTrashItems] = useState<StorageNodeDto[]>([])
-    const [loading, setLoading] = useState(false)
-
-    // Search
-    const [query, setQuery] = useState("")
-    const debouncedQuery = useDebounce(query, 350)
-
-    // Modals + selection
+    // Modals
     const [uploadOpen, setUploadOpen] = useState(false)
     const [createFolderOpen, setCreateFolderOpen] = useState(false)
     const [renameOpen, setRenameOpen] = useState(false)
     const [moveOpen, setMoveOpen] = useState(false)
-    const [shareOpen, setShareOpen] = useState(false)
     const [versionsOpen, setVersionsOpen] = useState(false)
+    const [previewOpen, setPreviewOpen] = useState(false)
+
+    // Selection (kept local because several modals use it)
     const [selected, setSelected] = useState<StorageNodeDto | null>(null)
+
+    // ✅ Hook instances
+    const nodes = useNodes()
+    const uploads = useUploads()
+    const shares = useShares()
 
     const userInitials = useMemo(() => {
         const u = auth.user?.username ?? "U"
@@ -62,174 +62,65 @@ export default function CloudStoragePage() {
             .join("")
     }, [auth.user?.username])
 
-    async function refreshFiles(folderId: string | null) {
-        setLoading(true)
-        try {
-            const res = await listNodes(folderId)
-            setItems(res.filter((n) => !n.trashed))
-        } catch (e) {
-            toast.error(e instanceof Error ? e.message : "Failed to load files")
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    async function refreshTrash() {
-        setLoading(true)
-        try {
-            const res = await listTrash()
-            setTrashItems(res)
-        } catch (e) {
-            toast.error(e instanceof Error ? e.message : "Failed to load trash")
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    // Initial load once logged in
+    // When user logs in, load files
     useEffect(() => {
         if (auth.loading) return
         if (!auth.user) return
-        void refreshFiles(null)
+        nodes.goHome()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [auth.loading, auth.user])
 
-    // Nav change behavior
-    useEffect(() => {
-        if (!auth.user) return
+    function handleNavChange(nav: string) {
+        setActiveNav(nav)
 
-        if (activeNav === "My Files" || activeNav === "Home") {
-            void refreshFiles(currentFolderId)
-        } else if (activeNav === "Trash") {
-            void refreshTrash()
+        // Tie sidebar nav to nodes view
+        if (nav === "Trash") {
+            nodes.setView("TRASH")
+        } else if (nav === "My Files" || nav === "Home") {
+            nodes.goHome()
         }
-        // Recent/Shared handled by their own components
-    }, [activeNav])
 
-    // Folder change behavior (only for My Files)
-    useEffect(() => {
-        if (!auth.user) return
-        if (activeNav !== "My Files" && activeNav !== "Home") return
-
-        // If user is searching, do not fetch folder list
-        if (debouncedQuery.trim()) return
-
-        void refreshFiles(currentFolderId)
-    }, [currentFolderId])
-
-    // Search behavior
-    useEffect(() => {
-        if (!auth.user) return
-        if (activeNav !== "My Files" && activeNav !== "Home") return
-
-        const q = debouncedQuery.trim()
-        if (!q) return
-
-        setLoading(true)
-        searchNodes(q)
-            .then((res) => setItems(res.filter((n) => !n.trashed)))
-            .catch((e) => toast.error(e instanceof Error ? e.message : "Search failed"))
-            .finally(() => setLoading(false))
-    }, [debouncedQuery, activeNav, auth.user])
-
-    function openFolder(folder: StorageNodeDto) {
-        setQuery("")
-        setActiveNav("My Files")
-        setCurrentFolderId(folder.id)
-        setCrumbs((prev) => [...prev, { id: folder.id, label: folder.name }])
-    }
-
-    function onBreadcrumbNavigate(id: string | null, index: number) {
-        setQuery("")
-        setActiveNav("My Files")
-        setCurrentFolderId(id)
-        setCrumbs((prev) => prev.slice(0, index + 1))
-    }
-
-    async function download(node: StorageNodeDto) {
-        try {
-            const res = await getDownloadUrl(node.id)
-            window.location.href = res.url
-        } catch (e) {
-            toast.error(e instanceof Error ? e.message : "Download failed")
-        }
-    }
-
-    async function doTrash(node: StorageNodeDto) {
-        try {
-            await trashNode(node.id)
-            toast.success("Moved to trash")
-            await refreshFiles(currentFolderId)
-        } catch (e) {
-            toast.error(e instanceof Error ? e.message : "Failed to trash")
-        }
-    }
-
-    async function doRestore(node: StorageNodeDto) {
-        try {
-            await restoreNode(node.id)
-            toast.success("Restored")
-            await refreshTrash()
-        } catch (e) {
-            toast.error(e instanceof Error ? e.message : "Failed to restore")
-        }
-    }
-
-    async function doPurge(node: StorageNodeDto) {
-        try {
-            await purgeNode(node.id)
-            toast.success("Deleted forever")
-            await refreshTrash()
-        } catch (e) {
-            toast.error(e instanceof Error ? e.message : "Failed to delete")
-        }
-    }
-
-    async function doCreateFolder(name: string) {
-        await createFolder(name, currentFolderId)
-        await refreshFiles(currentFolderId)
-    }
-
-    async function doRename(name: string) {
-        if (!selected) return
-        await renameNode(selected.id, name)
-        await refreshFiles(currentFolderId)
-    }
-
-    async function doMove(parentId: string | null) {
-        if (!selected) return
-        await moveNode(selected.id, parentId)
-        await refreshFiles(currentFolderId)
+        // close mobile sheet after navigation
+        setMobileMenuOpen(false)
     }
 
     function handleQuickAction(actionKey: string) {
+        // always keep upload/folder actions in FILES view
+        if (nodes.view !== "FILES") nodes.setView("FILES")
+
         if (actionKey === "upload") setUploadOpen(true)
         if (actionKey === "new-folder") setCreateFolderOpen(true)
     }
 
+    async function doCreateFolder(name: string) {
+        await nodes.createNewFolder(name)
+    }
+
+    async function doRename(name: string) {
+        if (!selected) return
+        await nodes.rename(selected.id, name)
+    }
+
+    async function doMove(parentId: string | null) {
+        if (!selected) return
+        await nodes.move(selected.id, parentId)
+    }
+
     // Auth gate
     if (!auth.user) {
-        return <LoginPanel onLogin={auth.signIn} isLoading={auth.loading}/>
+        return <LoginPanel onLogin={auth.signIn} isLoading={auth.loading} />
     }
 
     const showBreadcrumbs = activeNav === "My Files" || activeNav === "Home"
+
+    const isTrash = nodes.view === "TRASH"
 
     return (
         <div className="flex h-screen bg-background">
             {/* Desktop Sidebar */}
             <div className="hidden lg:block">
-                <AppSidebar
-                    activeNav={activeNav}
-                    onNavChange={(nav) => {
-                        setActiveNav(nav)
-                        if (nav === "My Files" || nav === "Home") {
-                            setCurrentFolderId(null)
-                            setCrumbs([{ id: null, label: "My Files" }])
-                        }
-                    }}
-                    onUploadClick={() => setUploadOpen(true)}
-                    user={{ username: auth.user.username, role: auth.user.role }}
-                    onLogout={auth.signOut}
-                />
+                <AppSidebar activeNav={activeNav} onNavChange={handleNavChange} onUploadClick={() => setUploadOpen(true)}
+                    user={{ username: auth.user.username, role: auth.user.role }} onLogout={auth.signOut} />
             </div>
 
             {/* Mobile Sidebar */}
@@ -237,14 +128,7 @@ export default function CloudStoragePage() {
                 <SheetContent side="left" className="p-0 w-64">
                     <AppSidebar
                         activeNav={activeNav}
-                        onNavChange={(nav) => {
-                            setActiveNav(nav)
-                            setMobileMenuOpen(false)
-                            if (nav === "My Files" || nav === "Home") {
-                                setCurrentFolderId(null)
-                                setCrumbs([{ id: null, label: "My Files" }])
-                            }
-                        }}
+                        onNavChange={handleNavChange}
                         onUploadClick={() => {
                             setUploadOpen(true)
                             setMobileMenuOpen(false)
@@ -263,39 +147,41 @@ export default function CloudStoragePage() {
                 {/* Mobile Header */}
                 <div className="lg:hidden flex items-center gap-3 px-4 h-16 border-b border-border/50">
                     <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(true)}>
-                        <Menu className="h-5 w-5"/>
+                        <Menu className="h-5 w-5" />
                     </Button>
                     <span className="text-lg font-semibold">CloudVault</span>
                 </div>
 
-                <SearchHeader
-                    query={query}
-                    onQueryChange={(q) => setQuery(q)}
-                    onUploadClick={() => setUploadOpen(true)}
-                    userInitials={userInitials}
-                />
+                {/* ✅ Search now comes from useNodes */}
+                <SearchHeader query={nodes.query} onQueryChange={nodes.setQuery}
+                    onUploadClick={() => setUploadOpen(true)} userInitials={userInitials} />
 
                 <main className="flex-1 flex flex-col min-h-0">
                     <div className="flex items-center justify-between px-6 py-4 border-b border-border/50">
                         {showBreadcrumbs ? (
-                            <BreadcrumbNav items={crumbs} onNavigate={onBreadcrumbNavigate}/>
+                            <BreadcrumbNav items={nodes.crumbs} onNavigate={nodes.navigateBreadcrumb} />
                         ) : (
                             <div className="text-sm text-muted-foreground">{activeNav}</div>
                         )}
-                        <QuickActions onAction={handleQuickAction}/>
+                        <QuickActions onAction={handleQuickAction} />
                     </div>
 
+                    {/* Existing views remain */}
                     {activeNav === "Recent" ? (
-                        <RecentActivityView/>
+                        <RecentActivityView />
                     ) : activeNav === "Shared" ? (
-                        <SharesView/>
-                    ) : activeNav === "Trash" ? (
+                        <SharesView />
+                    ) : isTrash ? (
                         <FileBrowser
                             title="Trash"
-                            items={trashItems}
-                            loading={loading}
-                            onRestore={(n) => void doRestore(n)}
-                            onPurge={(n) => void doPurge(n)}
+                            items={nodes.trashItems}
+                            loading={nodes.loading}
+                            onRestore={(n) => void nodes.restore(n.id)}
+                            onPurge={(n) => void nodes.purge(n.id)}
+                            onPreview={(n) => {
+                                setSelected(n)
+                                setPreviewOpen(true)
+                            }}
                             onRename={(n) => {
                                 setSelected(n)
                                 setRenameOpen(true)
@@ -307,15 +193,20 @@ export default function CloudStoragePage() {
                         />
                     ) : (
                         <FileBrowser
-                            title={debouncedQuery.trim() ? `Search results for “${debouncedQuery.trim()}”` : "My Files"}
-                            items={items}
-                            loading={loading}
-                            onOpenFolder={openFolder}
-                            onDownload={(n) => void download(n)}
-                            onShare={(n) => {
+                            title={
+                                nodes.debouncedQuery.trim()
+                                    ? `Search results for “${nodes.debouncedQuery.trim()}”`
+                                    : "My Files"
+                            }
+                            items={nodes.items}
+                            loading={nodes.loading}
+                            onOpenFolder={nodes.openFolder}
+                            onPreview={(n) => {
                                 setSelected(n)
-                                setShareOpen(true)
+                                setPreviewOpen(true)
                             }}
+                            onDownload={(n) => void uploads.downloadByNodeId(n.id)}
+                            onShare={(n) => shares.openShare(n)}
                             onRename={(n) => {
                                 setSelected(n)
                                 setRenameOpen(true)
@@ -324,7 +215,7 @@ export default function CloudStoragePage() {
                                 setSelected(n)
                                 setMoveOpen(true)
                             }}
-                            onTrash={(n) => void doTrash(n)}
+                            onTrash={(n) => void nodes.trash(n.id)}
                             onVersions={(n) => {
                                 setSelected(n)
                                 setVersionsOpen(true)
@@ -333,19 +224,22 @@ export default function CloudStoragePage() {
                     )}
                 </main>
 
+                {/* Upload */}
                 <UploadModal
                     open={uploadOpen}
                     onOpenChange={setUploadOpen}
-                    parentId={currentFolderId}
-                    onUploaded={() => void refreshFiles(currentFolderId)}
+                    parentId={nodes.currentFolderId}
+                    onUploaded={() => void nodes.refresh()}
                 />
 
+                {/* Create folder */}
                 <CreateFolderModal
                     open={createFolderOpen}
                     onOpenChange={setCreateFolderOpen}
                     onCreate={doCreateFolder}
                 />
 
+                {/* Rename */}
                 <RenameModal
                     open={renameOpen}
                     onOpenChange={setRenameOpen}
@@ -353,6 +247,7 @@ export default function CloudStoragePage() {
                     onRename={doRename}
                 />
 
+                {/* Move */}
                 <MoveModal
                     open={moveOpen}
                     onOpenChange={setMoveOpen}
@@ -360,9 +255,29 @@ export default function CloudStoragePage() {
                     onMove={doMove}
                 />
 
-                <ShareModal open={shareOpen} onOpenChange={setShareOpen} node={selected}/>
+                {/* Share */}
+                <ShareModal
+                    open={shares.shareOpen}
+                    onOpenChange={(open) => {
+                        if (!open) shares.closeShare()
+                        else shares.setShareOpen(true)
+                    }}
+                    node={shares.selectedNode}
+                />
 
-                <VersionsModal open={versionsOpen} onOpenChange={setVersionsOpen} node={selected}/>
+                {/* Versions */}
+                <VersionsModal
+                    open={versionsOpen}
+                    onOpenChange={setVersionsOpen}
+                    node={selected}
+                />
+
+                {/* Preview */}
+                <FilePreviewModal
+                    open={previewOpen}
+                    onOpenChange={setPreviewOpen}
+                    node={selected}
+                />
             </div>
         </div>
     )
