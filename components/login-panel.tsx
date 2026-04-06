@@ -13,8 +13,8 @@ export function LoginPanel({
     onLogin: (email: string, password: string) => Promise<void>;
     isLoading?: boolean;
 }) {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
     async function submit() {
         try {
