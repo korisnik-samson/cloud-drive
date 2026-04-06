@@ -52,10 +52,10 @@ export function LoginPanel({
                     <Button className="w-full" onClick={submit} disabled={isLoading}>
                         {isLoading ? "Signing in…" : "Sign in"}
                     </Button>
-                    /* <p className="text-xs text-muted-foreground">
+                  {/* <p className="text-xs text-muted-foreground">
                         Tip: set <span className="font-mono">NEXT_PUBLIC_API_BASE_URL</span> to your Spring server (e.g.
                         <span className="font-mono"> http://localhost:8080</span>).
-                    </p> */
+                    </p> */}
                 </CardContent>
             </Card>
         </div>
