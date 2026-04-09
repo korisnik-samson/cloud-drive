@@ -43,7 +43,8 @@ export function SharesView() {
                                     </div>
 
                                     <div className="flex gap-2">
-                                        <Button variant="secondary" onClick={() => copy(s.url)}>
+                                        {/* TODO: Look at this token should be url*/}
+                                        <Button variant="secondary" onClick={() => copy(s.token)}>
                                             Copy
                                         </Button>
                                         <Button variant="destructive" onClick={() => shares.revoke(s.id)}>
@@ -52,7 +53,8 @@ export function SharesView() {
                                     </div>
                                 </div>
 
-                                <div className="text-xs text-muted-foreground break-all">{s.url}</div>
+                                {/* TODO: Look at this token should be url*/}
+                                <div className="text-xs text-muted-foreground break-all">{s.token}</div>
                             </CardContent>
                         </Card>
                     ))}

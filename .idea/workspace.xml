@@ -5,26 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42f49a58-64d2-4f79-9523-7d4829ab5dc2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/components/modals/file-preview-modal.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/modals/upload-modal.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hooks/use-nodes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hooks/use-shares.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hooks/use-uploads.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/auth-token.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/providers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/providers.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/breadcrumb-nav.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/breadcrumb-nav.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/file-browser.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/file-browser.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/theme-provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/theme-provider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/upload-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/upload-modal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/views/shares-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/views/shares-view.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/use-auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/use-auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/use-storage-usage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/use-storage-usage.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/next.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +108,7 @@
       <recent name="C:\Users\sammi\Desktop\projects\cloud-drive\components" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.dev">
+  <component name="RunManager" selected="npm.build">
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -182,6 +166,9 @@
       <workItem from="1774523086589" duration="19000" />
       <workItem from="1774523526984" duration="540000" />
       <workItem from="1775462972029" duration="2911000" />
+      <workItem from="1775578608439" duration="852000" />
+      <workItem from="1775652421459" duration="843000" />
+      <workItem from="1775724283017" duration="324000" />
     </task>
     <servers />
   </component>

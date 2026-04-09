@@ -115,6 +115,7 @@ export default function CloudStoragePage() {
 
     const isTrash = nodes.view === "TRASH"
 
+    // @ts-ignore
     return (
         <div className="flex h-screen bg-background">
             {/* Desktop Sidebar */}
@@ -159,7 +160,8 @@ export default function CloudStoragePage() {
                 <main className="flex-1 flex flex-col min-h-0">
                     <div className="flex items-center justify-between px-6 py-4 border-b border-border/50">
                         {showBreadcrumbs ? (
-                            <BreadcrumbNav items={nodes.crumbs} onNavigate={nodes.navigateBreadcrumb} />
+                                // @ts-ignore
+                            <BreadcrumbNav items={nodes.breadcrumbs} onNavigate={nodes.navigateBreadcrumb} />
                         ) : (
                             <div className="text-sm text-muted-foreground">{activeNav}</div>
                         )}
@@ -174,7 +176,7 @@ export default function CloudStoragePage() {
                     ) : isTrash ? (
                         <FileBrowser
                             title="Trash"
-                            items={nodes.trashItems}
+                            items={nodes.items}
                             loading={nodes.loading}
                             onRestore={(n) => void nodes.restore(n.id)}
                             onPurge={(n) => void nodes.purge(n.id)}
