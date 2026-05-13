@@ -85,10 +85,10 @@ async function request<T>(path: string, init: RequestInit & { auth?: boolean } =
     return (await res.json()) as T;
 }
 
-export async function signup(name: string, email: string, password: string) {
-    const body = JSON.stringify({ name, email, password });
+export async function signup(username: string, email: string, password: string) {
+    const body = JSON.stringify({ username, email, password, userRole: "USER" });
 
-    await request<void>("/auth/signup", {
+    await request<void>("/api/v1/users/create", {
         method: "POST",
         auth: false,
         headers: { "Content-Type": "application/json" },
