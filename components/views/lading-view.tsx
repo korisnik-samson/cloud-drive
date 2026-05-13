@@ -1,6 +1,7 @@
 import Grainient from "@/components/grainient";
 import LandingNavBar from "@/components/landing-navbar";
 import { Button } from "@/components/ui/button";
+import { Link } from "next/link";
 
 export default function LandingPage() {
     return (
@@ -33,9 +34,11 @@ export default function LandingPage() {
                         Get started
                     </Button>
 
-                    <Button className="px-6 py-3 bg-black text-white font-bold shadow transition hover:bg-black">
-                        Learn more
-                    </Button>
+                    <Link href="/auth/sign-up">
+                        <Button className="px-6 py-3 bg-black text-white font-bold shadow transition hover:bg-black">
+                            Learn more
+                        </Button>
+                    </Link>
                 </div>
             </main>
         </div>
