@@ -55,6 +55,15 @@ export interface ShareResolveResponse {
     downloadUrl: string;
 }
 
+export type CreateShareRequest = {
+    nodeId: string;
+    expiresInHours?: number | null;
+    maxDownloads?: number | null;
+    password?: string | null;
+};
+
+export type ShareLinkDto = ShareListItem;
+
 export interface FileVersion {
     id: string;
     nodeId: string;

@@ -1,7 +1,7 @@
 "use client"
 
 import useSWR from "swr"
-import { request } from "@/lib/api"
+import { getUsage } from "@/lib/api";
 
 type Usage = {
     usedBytes: number
@@ -9,11 +9,15 @@ type Usage = {
     byCategoryBytes: Record<string, number>
 }
 
+const fetcher = (url: string) =>
+    fetch(url, { credentials: "include" }).then(async (r) => {
+        if (!r.ok) throw new Error(await r.text())
+        return r.json()
+    })
+
 export function useStorageUsage() {
-    const fetcher = async () => request<Usage>("/api/v1/usage", { method: "GET" })
-    
-    return useSWR<Usage>("/api/v1/usage", fetcher, {
+    return useSWR("usage", getUsage, {
         refreshInterval: 30_000,
         revalidateOnFocus: true,
-    })
+    });
 }

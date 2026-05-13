@@ -1,8 +1,9 @@
 "use client"
 
-import React from "react";
 import { useMemo, useState } from "react"
-import { Download, Flame, FolderInput, Grid3X3, History, List, MoreHorizontal, Pencil, RotateCcw, Share2, Trash2, } from "lucide-react"
+import {
+    Grid3X3, List, MoreHorizontal, Download, Share2, Trash2,
+    Pencil, FolderInput, History, RotateCcw, Flame, } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
@@ -12,9 +13,11 @@ import type { StorageNodeDto } from "@/lib/types"
 
 function formatBytes(bytes?: number | null) {
     if (!bytes && bytes !== 0) return "—"
+
     const sizes = ["B", "KB", "MB", "GB", "TB"]
     let i = 0
     let n = bytes
+
     while (n >= 1024 && i < sizes.length - 1) {
         n /= 1024
         i++
@@ -25,47 +28,31 @@ function formatBytes(bytes?: number | null) {
 function formatDate(iso?: string | null) {
     if (!iso) return "—"
     const d = new Date(iso)
+
     return d.toLocaleString()
 }
 
 function iconType(node: StorageNodeDto) {
     if (node.type === "FOLDER") return "folder" as const
     const mt = node.mimeType ?? ""
-
-    if (mt.startsWith("image/"))
-        return "image" as const
-
-    if (mt.startsWith("video/"))
-        return "video" as const
-
-    if (mt.startsWith("audio/"))
-        return "audio" as const
-
-    if (mt.includes("pdf"))
-        return "document" as const
-
-    if (mt.includes("zip") || mt.includes("rar") || mt.includes("7z") || mt.includes("tar"))
-        return "archive" as const
-
-    if (mt.includes("spreadsheet") || mt.includes("excel") || mt.includes("csv"))
-        return "spreadsheet" as const
-
-    if (mt.includes("presentation") || mt.includes("powerpoint"))
-        return "presentation" as const
-
-    if (mt.includes("json") || mt.includes("xml") || mt.includes("javascript") || mt.includes("text"))
-        return "code" as const
-
+    if (mt.startsWith("image/")) return "image" as const
+    if (mt.startsWith("video/")) return "video" as const
+    if (mt.startsWith("audio/")) return "audio" as const
+    if (mt.includes("pdf")) return "document" as const
+    if (mt.includes("zip") || mt.includes("rar") || mt.includes("7z") || mt.includes("tar")) return "archive" as const
+    if (mt.includes("spreadsheet") || mt.includes("excel") || mt.includes("csv")) return "spreadsheet" as const
+    if (mt.includes("presentation") || mt.includes("powerpoint")) return "presentation" as const
+    if (mt.includes("json") || mt.includes("xml") || mt.includes("javascript") || mt.includes("text")) return "code" as const
     return "document" as const
 }
 
-export function FileBrowser({ items, loading, onOpenFolder, onDownload,
-        onShare, onRename, onMove, onTrash, onRestore,
-        onPurge, onVersions, title, }: {
+export function FileBrowser({ items, loading, onOpenFolder, onPreview, onDownload,
+                                onShare, onRename, onMove, onTrash, onRestore, onPurge, onVersions, title, }: {
     items: StorageNodeDto[]
     loading?: boolean
     title?: string
     onOpenFolder?: (folder: StorageNodeDto) => void
+    onPreview?: (file: StorageNodeDto) => void
     onDownload?: (file: StorageNodeDto) => void
     onShare?: (file: StorageNodeDto) => void
     onRename?: (node: StorageNodeDto) => void
@@ -110,7 +97,7 @@ export function FileBrowser({ items, loading, onOpenFolder, onDownload,
                             className={cn("rounded-r-none", viewMode === "list" && "bg-muted")}
                             onClick={() => setViewMode("list")}
                         >
-                            <List className="h-4 w-4"/>
+                            <List className="h-4 w-4" />
                         </Button>
                         <Button
                             variant="ghost"
@@ -118,7 +105,7 @@ export function FileBrowser({ items, loading, onOpenFolder, onDownload,
                             className={cn("rounded-l-none", viewMode === "grid" && "bg-muted")}
                             onClick={() => setViewMode("grid")}
                         >
-                            <Grid3X3 className="h-4 w-4"/>
+                            <Grid3X3 className="h-4 w-4" />
                         </Button>
                     </div>
                 </div>
@@ -143,13 +130,13 @@ export function FileBrowser({ items, loading, onOpenFolder, onDownload,
                                     className="grid grid-cols-12 gap-4 px-4 py-3 rounded-lg hover:bg-muted/50 transition-colors group"
                                 >
                                     <div className="col-span-6 flex items-center gap-3 min-w-0">
-                                        <FileIcon type={iconType(node)} className="h-5 w-5"/>
+                                        <FileIcon type={iconType(node)} className="h-5 w-5" />
                                         <button
                                             className={cn(
                                                 "text-sm font-medium truncate text-left",
-                                                isFolder && "hover:underline"
+                                                (isFolder || isFile) && "hover:underline"
                                             )}
-                                            onClick={() => (isFolder ? onOpenFolder?.(node) : undefined)}
+                                            onClick={() => (isFolder ? onOpenFolder?.(node) : onPreview?.(node))}
                                             type="button"
                                             title={node.name}
                                         >
@@ -168,43 +155,46 @@ export function FileBrowser({ items, loading, onOpenFolder, onDownload,
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
                                                 <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100">
-                                                    <MoreHorizontal className="h-4 w-4"/>
+                                                    <MoreHorizontal className="h-4 w-4" />
                                                 </Button>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end">
                                                 {isFile && (
                                                     <>
+                                                        <DropdownMenuItem onClick={() => onPreview?.(node)}>
+                                                            <span className="mr-2">👁️</span> Preview
+                                                        </DropdownMenuItem>
                                                         <DropdownMenuItem onClick={() => onDownload?.(node)}>
-                                                            <Download className="h-4 w-4 mr-2"/> Download
+                                                            <Download className="h-4 w-4 mr-2" /> Download
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem onClick={() => onVersions?.(node)}>
-                                                            <History className="h-4 w-4 mr-2"/> Versions
+                                                            <History className="h-4 w-4 mr-2" /> Versions
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem onClick={() => onShare?.(node)}>
-                                                            <Share2 className="h-4 w-4 mr-2"/> Share
+                                                            <Share2 className="h-4 w-4 mr-2" /> Share
                                                         </DropdownMenuItem>
-                                                        <DropdownMenuSeparator/>
+                                                        <DropdownMenuSeparator />
                                                     </>
                                                 )}
                                                 <DropdownMenuItem onClick={() => onRename?.(node)}>
-                                                    <Pencil className="h-4 w-4 mr-2"/> Rename
+                                                    <Pencil className="h-4 w-4 mr-2" /> Rename
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem onClick={() => onMove?.(node)}>
-                                                    <FolderInput className="h-4 w-4 mr-2"/> Move
+                                                    <FolderInput className="h-4 w-4 mr-2" /> Move
                                                 </DropdownMenuItem>
                                                 {onTrash && (
                                                     <DropdownMenuItem className="text-destructive" onClick={() => onTrash(node)}>
-                                                        <Trash2 className="h-4 w-4 mr-2"/> Move to trash
+                                                        <Trash2 className="h-4 w-4 mr-2" /> Move to trash
                                                     </DropdownMenuItem>
                                                 )}
                                                 {onRestore && (
                                                     <DropdownMenuItem onClick={() => onRestore(node)}>
-                                                        <RotateCcw className="h-4 w-4 mr-2"/> Restore
+                                                        <RotateCcw className="h-4 w-4 mr-2" /> Restore
                                                     </DropdownMenuItem>
                                                 )}
                                                 {onPurge && (
                                                     <DropdownMenuItem className="text-destructive" onClick={() => onPurge(node)}>
-                                                        <Flame className="h-4 w-4 mr-2"/> Delete forever
+                                                        <Flame className="h-4 w-4 mr-2" /> Delete forever
                                                     </DropdownMenuItem>
                                                 )}
                                             </DropdownMenuContent>
@@ -215,9 +205,7 @@ export function FileBrowser({ items, loading, onOpenFolder, onDownload,
                         })}
 
                         {!loading && filtered.length === 0 && (
-                            <div className="text-center text-sm text-muted-foreground py-12">
-                                Nothing here yet.
-                            </div>
+                            <div className="text-center text-sm text-muted-foreground py-12">Nothing here yet.</div>
                         )}
                     </div>
                 ) : (
@@ -225,67 +213,71 @@ export function FileBrowser({ items, loading, onOpenFolder, onDownload,
                         {filtered.map((node) => {
                             const isFolder = node.type === "FOLDER"
                             const isFile = node.type === "FILE"
-
                             return (
-                                <div key={node.id} className="p-4 rounded-xl border border-border/50 hover:bg-muted/30 transition-colors group">
+                                <div
+                                    key={node.id}
+                                    className="p-4 rounded-xl border border-border/50 hover:bg-muted/30 transition-colors group"
+                                >
                                     <div className="flex items-start justify-between gap-2">
                                         <div className="flex items-center gap-2 min-w-0">
-                                            <FileIcon type={iconType(node)} className="h-5 w-5"/>
-                                            <button className={cn("text-sm font-medium truncate text-left",
-                                                    isFolder && "hover:underline"
+                                            <FileIcon type={iconType(node)} className="h-5 w-5" />
+                                            <button
+                                                className={cn(
+                                                    "text-sm font-medium truncate text-left",
+                                                    (isFolder || isFile) && "hover:underline"
                                                 )}
-                                                onClick={() => (isFolder ? onOpenFolder?.(node) : undefined)}
+                                                onClick={() => (isFolder ? onOpenFolder?.(node) : onPreview?.(node))}
                                                 type="button"
-                                                title={node.name}>
-
+                                                title={node.name}
+                                            >
                                                 {node.name}
                                             </button>
                                         </div>
-
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
                                                 <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100">
-                                                    <MoreHorizontal className="h-4 w-4"/>
+                                                    <MoreHorizontal className="h-4 w-4" />
                                                 </Button>
                                             </DropdownMenuTrigger>
-
                                             <DropdownMenuContent align="end">
                                                 {isFile && (
-                                                    <React.Fragment>
+                                                    <>
+                                                        <DropdownMenuItem onClick={() => onPreview?.(node)}>
+                                                            <span className="mr-2">👁️</span> Preview
+                                                        </DropdownMenuItem>
                                                         <DropdownMenuItem onClick={() => onDownload?.(node)}>
-                                                            <Download className="h-4 w-4 mr-2"/> Download
+                                                            <Download className="h-4 w-4 mr-2" /> Download
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem onClick={() => onShare?.(node)}>
-                                                            <Share2 className="h-4 w-4 mr-2"/> Share
+                                                            <Share2 className="h-4 w-4 mr-2" /> Share
                                                         </DropdownMenuItem>
-                                                        <DropdownMenuSeparator/>
-                                                    </React.Fragment>
+                                                        <DropdownMenuSeparator />
+                                                    </>
                                                 )}
                                                 <DropdownMenuItem onClick={() => onRename?.(node)}>
-                                                    <Pencil className="h-4 w-4 mr-2"/> Rename
+                                                    <Pencil className="h-4 w-4 mr-2" /> Rename
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem onClick={() => onMove?.(node)}>
-                                                    <FolderInput className="h-4 w-4 mr-2"/> Move
+                                                    <FolderInput className="h-4 w-4 mr-2" /> Move
                                                 </DropdownMenuItem>
                                                 {onTrash && (
                                                     <DropdownMenuItem className="text-destructive" onClick={() => onTrash(node)}>
-                                                        <Trash2 className="h-4 w-4 mr-2"/> Move to trash
+                                                        <Trash2 className="h-4 w-4 mr-2" /> Move to trash
                                                     </DropdownMenuItem>
                                                 )}
                                                 {onRestore && (
                                                     <DropdownMenuItem onClick={() => onRestore(node)}>
-                                                        <RotateCcw className="h-4 w-4 mr-2"/> Restore
+                                                        <RotateCcw className="h-4 w-4 mr-2" /> Restore
                                                     </DropdownMenuItem>
                                                 )}
                                                 {onPurge && (
                                                     <DropdownMenuItem className="text-destructive" onClick={() => onPurge(node)}>
-                                                        <Flame className="h-4 w-4 mr-2"/> Delete forever
+                                                        <Flame className="h-4 w-4 mr-2" /> Delete forever
                                                     </DropdownMenuItem>
                                                 )}
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </div>
-
                                     <div className="mt-3 text-xs text-muted-foreground space-y-1">
                                         <div>{isFolder ? "Folder" : node.mimeType || "File"}</div>
                                         <div>{isFile ? formatBytes(node.sizeBytes) : "—"}</div>

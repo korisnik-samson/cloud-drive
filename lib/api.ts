@@ -2,7 +2,7 @@ import { type AuditEventDto, type DownloadUrlResponse, type FileVersion, type In
     type ShareListItem, type ShareResolveResponse, type StorageNodeDto } from "@/lib/types";
 import { clearTokens, getTokens, setTokens } from "@/lib/auth";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://restcloudserver.duckdns.org";
 
 type Json = Record<string, unknown>;
 
@@ -15,7 +15,21 @@ type LoginResponseDto = {
     token_type?: string;
 };
 
-export async function request<T>(path: string, init: RequestInit & { auth?: boolean } = { auth: true }): Promise<T> {
+let refreshInFlight: Promise<boolean> | null = null;
+
+async function refreshOnce(): Promise<boolean> {
+    const { refreshToken } = getTokens();
+
+    if (!refreshToken) return false;
+
+    if (!refreshInFlight) refreshInFlight = refresh(refreshToken).finally(() => {
+        refreshInFlight = null;
+    });
+
+    return refreshInFlight;
+}
+
+async function request<T>(path: string, init: RequestInit & { auth?: boolean } = { auth: true }): Promise<T> {
     const auth = init.auth !== false;
     const headers = new Headers(init.headers ?? {});
 
@@ -23,8 +37,7 @@ export async function request<T>(path: string, init: RequestInit & { auth?: bool
 
     const tokens = getTokens();
 
-    if (auth && tokens.accessToken)
-        headers.set("Authorization", `Bearer ${tokens.accessToken}`);
+    if (auth && tokens.accessToken) headers.set("Authorization", `Bearer ${tokens.accessToken}`);
 
     const res = await fetch(`${API_BASE}${path}`, {
         ...init,
@@ -34,7 +47,7 @@ export async function request<T>(path: string, init: RequestInit & { auth?: bool
 
     // Auto-refresh once on 401
     if (auth && res.status === 401 && tokens.refreshToken && path !== "/auth/refresh") {
-        const refreshed = await refresh(tokens.refreshToken);
+        const refreshed = await refreshOnce();
 
         if (refreshed) {
             const tokens2 = getTokens();
@@ -50,6 +63,7 @@ export async function request<T>(path: string, init: RequestInit & { auth?: bool
                 headers: headers2,
             });
 
+            // TODO: Fix the random 403s on Login screen
             if (!res2.ok) {
                 const text = await res2.text().catch(() => "");
                 throw new Error(text || `Request failed: ${res2.status}`);
@@ -66,11 +80,21 @@ export async function request<T>(path: string, init: RequestInit & { auth?: bool
 
     const ct = res.headers.get("content-type") ?? "";
 
-    if (!ct.includes("application/json")) {
-        return undefined as unknown as T;
-    }
+    if (!ct.includes("application/json")) return undefined as unknown as T;
 
     return (await res.json()) as T;
+}
+
+export async function signup(name: string, email: string, password: string) {
+    const body = JSON.stringify({ name, email, password });
+
+    await request<void>("/auth/signup", {
+        method: "POST",
+        auth: false,
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body,
+    });
 }
 
 export async function login(email: string, password: string) {
@@ -122,8 +146,8 @@ export async function refresh(refreshToken: string): Promise<boolean> {
 
         return true;
 
-    } catch {
-        clearTokens();
+    } catch (exception) {
+        // clearTokens();
         return false;
     }
 }
@@ -147,6 +171,7 @@ export async function listTrash(): Promise<StorageNodeDto[]> {
 
 export async function createFolder(name: string, parentId?: string | null): Promise<StorageNodeDto> {
     const body = JSON.stringify({ name, parentId: parentId ?? null });
+
     return request<StorageNodeDto>(`/api/v1/nodes/folders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -156,6 +181,7 @@ export async function createFolder(name: string, parentId?: string | null): Prom
 
 export async function renameNode(id: string, name: string): Promise<StorageNodeDto> {
     const body = JSON.stringify({ name });
+
     return request<StorageNodeDto>(`/api/v1/nodes/${id}/rename`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -165,6 +191,7 @@ export async function renameNode(id: string, name: string): Promise<StorageNodeD
 
 export async function moveNode(id: string, parentId: string | null): Promise<StorageNodeDto> {
     const body = JSON.stringify({ parentId });
+
     return request<StorageNodeDto>(`/api/v1/nodes/${id}/move`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -273,4 +300,13 @@ export async function resolveShare(token: string, password?: string | null): Pro
         headers: { "Content-Type": "application/json" },
         body,
     });
+}
+
+export async function getUsage() {
+    return request<{
+        usedBytes: number;
+        quotaBytes: number;
+        byCategoryBytes: Record<string, number>;
+
+    }>("/api/v1/usage", { method: "GET" });
 }

@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
         "http://localhost:8080",
         "http://192.168.50.153:8080",
         "http://192.168.50.153",
-        "https://192.168.3.116"
+        "https://restcloud.duckdns.org",
     ],
 };
 

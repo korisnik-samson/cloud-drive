@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { clearTokens, decodeJwtPayload, getTokens, isTokenExpired } from "@/lib/auth";
-import { getMe, login as apiLogin, refresh as apiRefresh } from "@/lib/api";
+import { getMe, login as apiLogin, refresh as apiRefresh, signup as apiRegister } from "@/lib/api";
+import { SignUpFormData } from "@/lib/validations/auth";
 
 export type AuthUser = {
     id: string;
@@ -22,11 +23,22 @@ export function useAuth() {
             const { accessToken, refreshToken } = getTokens();
 
             if (!accessToken) {
-                setUser(null);
-                return;
+                // NEW: try silent refresh if refreshToken exists
+                if (refreshToken) {
+                    const refreshed = await apiRefresh(refreshToken);
+
+                    if (!refreshed) {
+                        setUser(null);
+                        return;
+                    }
+
+                } else {
+                    setUser(null);
+                    return;
+                }
             }
 
-            if (isTokenExpired(accessToken) && refreshToken) {
+            if (isTokenExpired(accessToken!) && refreshToken) {
                 const refreshed = await apiRefresh(refreshToken);
 
                 if (!refreshed) {
@@ -42,11 +54,9 @@ export function useAuth() {
             const { accessToken } = getTokens();
             const payload = accessToken ? decodeJwtPayload(accessToken) : null;
 
-            if (payload?.sub && payload.username) {
+            if (payload?.sub && payload.username)
                 setUser({ id: payload.sub, username: payload.username, role: payload.role });
-            } else {
-                setUser(null);
-            }
+            else setUser(null);
 
         } finally {
             setLoading(false);
@@ -60,13 +70,17 @@ export function useAuth() {
         await load();
     }, [load]);
 
+    const signUp = useCallback(async(data: SignUpFormData) => {
+        await apiRegister(data.name, data.email, data.password);
+    }, []);
+
     const signOut = useCallback(() => {
         clearTokens();
         setUser(null);
     }, []);
 
     return useMemo(
-        () => ({ user, loading, reload: load, signIn, signOut }),
-        [user, loading, load, signIn, signOut]
+        () => ({ user, loading, reload: load, signIn, signUp, signOut }),
+        [user, loading, load, signIn, signUp, signOut]
     );
 }
