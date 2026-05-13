@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { clearTokens, decodeJwtPayload, getTokens, isTokenExpired } from "@/lib/auth";
-import { getMe, login as apiLogin, refresh as apiRefresh } from "@/lib/api";
+import { getMe, login as apiLogin, refresh as apiRefresh, signup as apiRegister } from "@/lib/api";
+import { SignUpFormData } from "@/lib/validations/auth";
 
 export type AuthUser = {
     id: string;
@@ -69,13 +70,17 @@ export function useAuth() {
         await load();
     }, [load]);
 
+    const signUp = useCallback(async(data: SignUpFormData) => {
+        await apiRegister(data.name, data.email, data.password);
+    }, []);
+
     const signOut = useCallback(() => {
         clearTokens();
         setUser(null);
     }, []);
 
     return useMemo(
-        () => ({ user, loading, reload: load, signIn, signOut }),
-        [user, loading, load, signIn, signOut]
+        () => ({ user, loading, reload: load, signIn, signUp, signOut }),
+        [user, loading, load, signIn, signUp, signOut]
     );
 }

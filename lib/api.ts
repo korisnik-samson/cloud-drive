@@ -85,6 +85,18 @@ async function request<T>(path: string, init: RequestInit & { auth?: boolean } =
     return (await res.json()) as T;
 }
 
+export async function signup(name: string, email: string, password: string) {
+    const body = JSON.stringify({ name, email, password });
+
+    await request<void>("/auth/signup", {
+        method: "POST",
+        auth: false,
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body,
+    });
+}
+
 export async function login(email: string, password: string) {
     const body = JSON.stringify({ email, password });
 
