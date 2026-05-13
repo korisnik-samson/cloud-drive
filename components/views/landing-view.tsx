@@ -30,15 +30,15 @@ export default function LandingPage() {
                 </h1>
 
                 <div className="flex gap-4 mt-6">
-                    <Button className="px-6 py-3 bg-white text-black font-bold shadow transition">
-                        Get started
-                    </Button>
-
                     <Link href="/auth/sign-up">
-                        <Button className="px-6 py-3 bg-black text-white font-bold shadow transition hover:bg-black">
-                            Learn more
+                        <Button className="px-6 py-3 bg-white text-black font-bold shadow transition">
+                            Get started
                         </Button>
                     </Link>
+                
+                    <Button className="px-6 py-3 bg-black text-white font-bold shadow transition hover:bg-black">
+                        Learn more
+                    </Button>
                 </div>
             </main>
         </div>
