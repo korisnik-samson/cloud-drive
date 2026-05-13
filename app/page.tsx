@@ -28,7 +28,7 @@ import { useAuth } from "@/hooks/use-auth"
 import { useNodes } from "@/hooks/use-nodes"
 import { useUploads } from "@/hooks/use-uploads"
 import { useShares } from "@/hooks/use-shares"
-import LandingPage from "@/components/views/lading-view";
+import LandingPage from "@/components/views/landing-view";
 
 export default function CloudStoragePage() {
     const auth = useAuth()
