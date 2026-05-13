@@ -2,7 +2,7 @@ import { type AuditEventDto, type DownloadUrlResponse, type FileVersion, type In
     type ShareListItem, type ShareResolveResponse, type StorageNodeDto } from "@/lib/types";
 import { clearTokens, getTokens, setTokens } from "@/lib/auth";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://restcloudserver.duckdns.org";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://cloud.citrixgate.org/api";
 
 type Json = Record<string, unknown>;
 
