@@ -123,7 +123,7 @@ export async function login(email: string, password: string) {
 
 export async function refresh(refreshToken: string): Promise<boolean> {
     try {
-        const body = JSON.stringify({ refreshToken });
+        const body = JSON.stringify({ refresh_token: refreshToken });
         const res = await request<{
             accessToken?: string;
             refreshToken?: string;
