@@ -6,10 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-export function LoginPanel({
-                               onLogin,
-                               isLoading,
-                           }: {
+export function LoginPanel({ onLogin, isLoading, }: {
     onLogin: (email: string, password: string) => Promise<void>;
     isLoading?: boolean;
 }) {

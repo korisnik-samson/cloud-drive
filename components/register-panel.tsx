@@ -57,7 +57,7 @@ export function RegisterPanel({ onSignUp, isLoading = false }: RegisterPanelProp
                                 disabled={isLoading}
                             />
                             {errors.name && (
-                                <p className="text-sm text-red-500">{errors.name.message}</p>
+                                <p className="text-sm text-red-300">{errors.name.message}</p>
                             )}
                         </div>
                         <div className="space-y-2">
@@ -65,12 +65,12 @@ export function RegisterPanel({ onSignUp, isLoading = false }: RegisterPanelProp
                             <Input
                                 id="email"
                                 type="email"
-                                placeholder="name@example.com"
+                                placeholder="name@citrixgate.org"
                                 {...register("email")}
                                 disabled={isLoading}
                             />
                             {errors.email && (
-                                <p className="text-sm text-red-500">{errors.email.message}</p>
+                                <p className="text-sm text-red-300">{errors.email.message}</p>
                             )}
                         </div>
                         <div className="space-y-2">
@@ -83,10 +83,10 @@ export function RegisterPanel({ onSignUp, isLoading = false }: RegisterPanelProp
                                 disabled={isLoading}
                             />
                             {errors.password && (
-                                <p className="text-sm text-red-500">{errors.password.message}</p>
+                                <p className="text-sm text-red-300">{errors.password.message}</p>
                             )}
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-2 ">
                             <Label htmlFor="confirmPassword">Confirm Password</Label>
                             <Input
                                 id="confirmPassword"
@@ -96,19 +96,21 @@ export function RegisterPanel({ onSignUp, isLoading = false }: RegisterPanelProp
                                 disabled={isLoading}
                             />
                             {errors.confirmPassword && (
-                                <p className="text-sm text-red-500">
+                                <p className="text-sm text-red-300">
                                     {errors.confirmPassword.message}
                                 </p>
                             )}
                         </div>
                     </CardContent>
-                    <CardFooter className="flex flex-col space-y-4">
-                        <Button type="submit" className="w-full" disabled={isLoading}>
+
+                    <CardFooter className="flex flex-col space-y-4 pt-10">
+                        <Button type="submit" className="w-full space-y-4" disabled={isLoading}>
                             {isLoading ? "Creating account..." : "Sign Up"}
                         </Button>
+
                         <p className="text-sm text-muted-foreground text-center">
                             Already have an account?{" "}
-                            <Link href="/login" className="text-primary hover:underline">
+                            <Link href="/auth/sign-in" className="text-primary hover:underline">
                                 Sign in
                             </Link>
                         </p>
