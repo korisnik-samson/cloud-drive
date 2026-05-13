@@ -54,7 +54,9 @@ export function SharesView() {
                                 </div>
 
                                 {/* TODO: Look at this token should be url*/}
-                                <div className="text-xs text-muted-foreground break-all">{s.token}</div>
+                                <div className="text-xs text-muted-foreground break-all">
+                                    {s.token}
+                                </div>
                             </CardContent>
                         </Card>
                     ))}

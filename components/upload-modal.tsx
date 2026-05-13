@@ -33,12 +33,7 @@ function putWithProgress(url: string, file: File, onProgress: (pct: number) => v
     })
 }
 
-export function UploadModal({
-                                open,
-                                onOpenChange,
-                                parentId,
-                                onUploaded,
-                            }: {
+export function UploadModal({ open, onOpenChange, parentId, onUploaded, }: {
     open: boolean
     onOpenChange: (open: boolean) => void
     parentId: string | null
@@ -53,6 +48,7 @@ export function UploadModal({
     async function uploadAll() {
         if (files.length === 0) {
             toast.error("Choose a file first")
+
             return
         }
 

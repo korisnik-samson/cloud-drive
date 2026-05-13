@@ -28,6 +28,7 @@ import { useAuth } from "@/hooks/use-auth"
 import { useNodes } from "@/hooks/use-nodes"
 import { useUploads } from "@/hooks/use-uploads"
 import { useShares } from "@/hooks/use-shares"
+import LandingPage from "@/components/views/lading-view";
 
 export default function CloudStoragePage() {
     const auth = useAuth()
@@ -106,10 +107,10 @@ export default function CloudStoragePage() {
         await nodes.move(selected.id, parentId)
     }
 
+    // TODO: Redo the authentication flow to avoid SSR issues
     // Auth gate
-    if (!auth.user) {
-        return <LoginPanel onLogin={auth.signIn} isLoading={auth.loading} />
-    }
+    // if (!auth.user) return <LoginPanel onLogin={auth.signIn} isLoading={auth.loading} />
+    if (!auth.user) return <LandingPage />
 
     const showBreadcrumbs = activeNav === "My Files" || activeNav === "Home"
 
@@ -121,7 +122,7 @@ export default function CloudStoragePage() {
             {/* Desktop Sidebar */}
             <div className="hidden lg:block">
                 <AppSidebar activeNav={activeNav} onNavChange={handleNavChange} onUploadClick={() => setUploadOpen(true)}
-                    user={{ username: auth.user.username, role: auth.user.role }} onLogout={auth.signOut} />
+                    user={{ username: 'auth.user.username', role: 'auth.user.role' }} onLogout={auth.signOut} />
             </div>
 
             {/* Mobile Sidebar */}
@@ -134,7 +135,7 @@ export default function CloudStoragePage() {
                             setUploadOpen(true)
                             setMobileMenuOpen(false)
                         }}
-                        user={{ username: auth.user.username, role: auth.user.role }}
+                        user={{ username: 'auth.user.username', role: 'auth.user.role' }}
                         onLogout={() => {
                             auth.signOut()
                             setMobileMenuOpen(false)
@@ -150,7 +151,10 @@ export default function CloudStoragePage() {
                     <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(true)}>
                         <Menu className="h-5 w-5" />
                     </Button>
-                    <span className="text-lg font-semibold">CloudVault</span>
+
+                    <span className="text-lg font-semibold">
+                        CloudVault
+                    </span>
                 </div>
 
                 {/* ✅ Search now comes from useNodes */}

@@ -2,7 +2,7 @@ import { type AuditEventDto, type DownloadUrlResponse, type FileVersion, type In
     type ShareListItem, type ShareResolveResponse, type StorageNodeDto } from "@/lib/types";
 import { clearTokens, getTokens, setTokens } from "@/lib/auth";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://restcloudserver.duckdns.org";
 
 type Json = Record<string, unknown>;
 
@@ -19,13 +19,13 @@ let refreshInFlight: Promise<boolean> | null = null;
 
 async function refreshOnce(): Promise<boolean> {
     const { refreshToken } = getTokens();
+
     if (!refreshToken) return false;
 
-    if (!refreshInFlight) {
-        refreshInFlight = refresh(refreshToken).finally(() => {
-            refreshInFlight = null;
-        });
-    }
+    if (!refreshInFlight) refreshInFlight = refresh(refreshToken).finally(() => {
+        refreshInFlight = null;
+    });
+
     return refreshInFlight;
 }
 
@@ -37,8 +37,7 @@ async function request<T>(path: string, init: RequestInit & { auth?: boolean } =
 
     const tokens = getTokens();
 
-    if (auth && tokens.accessToken)
-        headers.set("Authorization", `Bearer ${tokens.accessToken}`);
+    if (auth && tokens.accessToken) headers.set("Authorization", `Bearer ${tokens.accessToken}`);
 
     const res = await fetch(`${API_BASE}${path}`, {
         ...init,
@@ -64,6 +63,7 @@ async function request<T>(path: string, init: RequestInit & { auth?: boolean } =
                 headers: headers2,
             });
 
+            // TODO: Fix the random 403s on Login screen
             if (!res2.ok) {
                 const text = await res2.text().catch(() => "");
                 throw new Error(text || `Request failed: ${res2.status}`);
@@ -80,9 +80,7 @@ async function request<T>(path: string, init: RequestInit & { auth?: boolean } =
 
     const ct = res.headers.get("content-type") ?? "";
 
-    if (!ct.includes("application/json")) {
-        return undefined as unknown as T;
-    }
+    if (!ct.includes("application/json")) return undefined as unknown as T;
 
     return (await res.json()) as T;
 }
@@ -136,7 +134,7 @@ export async function refresh(refreshToken: string): Promise<boolean> {
 
         return true;
 
-    } catch (exception){
+    } catch (exception) {
         // clearTokens();
         return false;
     }
@@ -161,6 +159,7 @@ export async function listTrash(): Promise<StorageNodeDto[]> {
 
 export async function createFolder(name: string, parentId?: string | null): Promise<StorageNodeDto> {
     const body = JSON.stringify({ name, parentId: parentId ?? null });
+
     return request<StorageNodeDto>(`/api/v1/nodes/folders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -170,6 +169,7 @@ export async function createFolder(name: string, parentId?: string | null): Prom
 
 export async function renameNode(id: string, name: string): Promise<StorageNodeDto> {
     const body = JSON.stringify({ name });
+
     return request<StorageNodeDto>(`/api/v1/nodes/${id}/rename`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -179,6 +179,7 @@ export async function renameNode(id: string, name: string): Promise<StorageNodeD
 
 export async function moveNode(id: string, parentId: string | null): Promise<StorageNodeDto> {
     const body = JSON.stringify({ parentId });
+
     return request<StorageNodeDto>(`/api/v1/nodes/${id}/move`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -294,5 +295,6 @@ export async function getUsage() {
         usedBytes: number;
         quotaBytes: number;
         byCategoryBytes: Record<string, number>;
+
     }>("/api/v1/usage", { method: "GET" });
 }

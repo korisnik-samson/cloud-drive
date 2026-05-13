@@ -5,10 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42f49a58-64d2-4f79-9523-7d4829ab5dc2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/auth/sign-in/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/landing-navbar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/views/lading-view.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components.json" beforeDir="false" afterPath="$PROJECT_DIR$/components.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/upload-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/upload-modal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/views/shares-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/views/shares-view.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/next.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,15 +28,24 @@
       <entry key="_C:/Users/sammi/Desktop/projects/cloud-drive" value="3A5fQTMICEgq6lDa61XmjULHjMB" />
     </persistenceIdMap>
   </component>
+  <component name="CopilotUserSelectedChatMode">
+    <option name="chatModeId" value="Ask" />
+  </component>
+  <component name="CopilotUserSelectedModel">
+    <selectedModels>
+      <entry key="agent-panel" value="Claude Haiku 4.5" />
+      <entry key="chat-panel" value="Claude Haiku 4.5" />
+    </selectedModels>
+  </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="120" />
+    <option name="cachedIndexableFilesCount" value="124" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -108,7 +125,7 @@
       <recent name="C:\Users\sammi\Desktop\projects\cloud-drive\components" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.build">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -142,7 +159,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-3bd3a6803838-JavaScript-WS-261.22158.274" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-WS-261.23567.141" />
       </set>
     </attachedChunks>
   </component>
@@ -168,7 +185,12 @@
       <workItem from="1775462972029" duration="2911000" />
       <workItem from="1775578608439" duration="852000" />
       <workItem from="1775652421459" duration="843000" />
-      <workItem from="1775724283017" duration="324000" />
+      <workItem from="1775724283017" duration="949000" />
+      <workItem from="1775725853844" duration="2682000" />
+      <workItem from="1775853240090" duration="2953000" />
+      <workItem from="1777038844958" duration="289000" />
+      <workItem from="1777039198540" duration="6390000" />
+      <workItem from="1778649142757" duration="6000" />
     </task>
     <servers />
   </component>

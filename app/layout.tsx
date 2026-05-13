@@ -40,7 +40,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <html lang="en" suppressHydrationWarning={true}>
-            <body className={`${_geistMono.className} font-sans antialiased text-foreground bg-background`}>
+            <body className={`${_geist.className} font-sans antialiased text-foreground bg-background`}>
                 <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                     <Providers />
                     <Analytics />
