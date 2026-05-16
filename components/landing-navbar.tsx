@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function LandingNavBar() {
     return (
-        <nav className="relative z-10 flex justify-between items-center w-full max-w-5xl mx-auto mt-8 px-3 py-3
+        <nav className="relative z-10 flex justify-between items-center lg:max-w-2xl xl:max-w-5xl sm:w-1/2 mx-auto mt-8 px-3 py-3
             bg-white/10 backdrop-blur-3xl rounded-2xl shadow-xl border border-white/30 transition">
             <Link href=''>
                 <span className="font-bold text-lg text-white drop-shadow mx-3">

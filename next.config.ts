@@ -1,11 +1,21 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+    async rewrites() {
+        return [
+            {
+                source: '/api/:path*',
+                destination: 'http://backend:8081/api/:path*'
+            },
+	    {
+		source: '/auth/:path*',
+		destination: 'http://backend:8081/auth/:path*'
+	    }
+	]
+    },
     allowedDevOrigins: [
-        "http://localhost:8080",
-        "http://192.168.50.153:8080",
-        "http://192.168.50.153",
-        "https://restcloud.duckdns.org",
+        "http://localhost:8081",
+        "http://backend:8081",
     ],
 };
 
