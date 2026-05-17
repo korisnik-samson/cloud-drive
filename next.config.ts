@@ -7,11 +7,11 @@ const nextConfig: NextConfig = {
                 source: '/api/:path*',
                 destination: 'http://backend:8081/api/:path*'
             },
-	    {
-		source: '/auth/:path*',
-		destination: 'http://backend:8081/auth/:path*'
-	    }
-	]
+            {
+                source: '/auth/:path*',
+                destination: 'http://backend:8081/auth/:path*'
+            }
+        ]
     },
     allowedDevOrigins: [
         "http://localhost:8081",
